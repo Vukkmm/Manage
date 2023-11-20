@@ -4,6 +4,8 @@ import com.example.Manage.dto.request.UserRequest;
 import com.example.Manage.entity.User;
 
 public interface UserService {
-    User create(UserRequest userRequest);
+    User create(String age, String sex);
+
+    void save(User user);
 
 }
