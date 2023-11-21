@@ -29,19 +29,19 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     @Override
     public UserResponse create(UserRequest userRequest) {
 
-        User user = userService.create(userRequest.getSex(), userRequest.getAge());
-
         AccountResponse accountResponse = accountService.create(userRequest.getUsername(), userRequest.getPassword());
 
         FullNameResponse fullNameResponse = fullNameService.create(userRequest.getFirstName(), userRequest.getMiddleName(), userRequest.getLastName());
 
         AddressResponse addressResponse = addressService.create(userRequest.getApartNumber(), userRequest.getCommune(), userRequest.getDistrict(), userRequest.getCity(), userRequest.getCountry());
 
+        User user = userService.create(accountResponse.getId(), userRequest.getAge(), userRequest.getSex());
+
         user.setAccount(MODEL_MAPPER.map(accountResponse, Account.class));
         user.setFullName(MODEL_MAPPER.map(fullNameResponse, FullName.class));
         user.setAddress(MODEL_MAPPER.map(addressResponse, Address.class));
         userService.save(user);
 
-        return UserResponse.of(user.getId(), user.getAge(), user.getSex(), accountResponse, fullNameResponse, addressResponse);
+        return UserResponse.of(accountResponse.getId(), user.getAge(), user.getSex(), accountResponse, fullNameResponse, addressResponse);
     }
 }
