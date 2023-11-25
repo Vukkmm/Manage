@@ -5,10 +5,6 @@ import com.example.Manage.dto.response.AccountResponse;
 import com.example.Manage.dto.response.AddressResponse;
 import com.example.Manage.dto.response.FullNameResponse;
 import com.example.Manage.dto.response.UserResponse;
-import com.example.Manage.entity.Account;
-import com.example.Manage.entity.Address;
-import com.example.Manage.entity.FullName;
-import com.example.Manage.entity.User;
 import com.example.Manage.facade.UserFacadeService;
 import com.example.Manage.service.AccountService;
 import com.example.Manage.service.AddressService;
@@ -17,7 +13,7 @@ import com.example.Manage.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.example.Manage.untils.MapperUtils.MODEL_MAPPER;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,19 +25,17 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     @Override
     public UserResponse create(UserRequest userRequest) {
 
-        AccountResponse accountResponse = accountService.create(userRequest.getUsername(), userRequest.getPassword());
+        AccountResponse accountResponse = accountService.create(userRequest.getAccountRequest());
 
-        FullNameResponse fullNameResponse = fullNameService.create(userRequest.getFirstName(), userRequest.getMiddleName(), userRequest.getLastName());
+        FullNameResponse fullNameResponse = fullNameService.create(userRequest.getFullNameRequest());
 
-        AddressResponse addressResponse = addressService.create(userRequest.getApartNumber(), userRequest.getCommune(), userRequest.getDistrict(), userRequest.getCity(), userRequest.getCountry());
+        AddressResponse addressResponse = addressService.create(userRequest.getAddressRequest());
 
-        User user = userService.create(accountResponse.getId(), userRequest.getAge(), userRequest.getSex());
+        UserResponse userResponse = userService.create(userRequest);
+        userResponse.setAccountResponse(accountResponse);
+        userResponse.setAddressResponse(addressResponse);
+        userResponse.setFullNameResponse(fullNameResponse);
 
-        user.setAccount(MODEL_MAPPER.map(accountResponse, Account.class));
-        user.setFullName(MODEL_MAPPER.map(fullNameResponse, FullName.class));
-        user.setAddress(MODEL_MAPPER.map(addressResponse, Address.class));
-        userService.save(user);
-
-        return UserResponse.of(accountResponse.getId(), user.getAge(), user.getSex(), accountResponse, fullNameResponse, addressResponse);
+        return userResponse;
     }
 }

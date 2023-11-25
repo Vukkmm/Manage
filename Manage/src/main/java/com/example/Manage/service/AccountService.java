@@ -6,7 +6,7 @@ import com.example.Manage.entity.Account;
 import com.example.Manage.entity.User;
 
 public interface AccountService {
-    AccountResponse create(String username, String password);
+    AccountResponse create(AccountRequest accountRequest);
 
     //Account update(Long id, AccountRequest accountRequest);
 }

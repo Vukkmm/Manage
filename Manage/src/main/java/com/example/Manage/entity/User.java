@@ -19,7 +19,7 @@ public class User {
     private String sex;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @OneToOne(cascade = CascadeType.ALL)

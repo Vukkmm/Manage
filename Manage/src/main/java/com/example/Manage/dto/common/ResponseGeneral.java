@@ -33,7 +33,7 @@ public class ResponseGeneral<T> {
         return of(HttpStatus.OK.value(), message, null, DateUtils.getCurrentDateString());
     }
 
-    public static <T> ResponseGeneral<T> ofCreated( T data) {
+    public static <T> ResponseGeneral<T> ofCreated(T data) {
         return of(HttpStatus.CREATED.value(), null, data, DateUtils.getCurrentDateString());
     }
 

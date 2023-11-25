@@ -14,14 +14,21 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
 
     @Override
-    public AddressResponse create(String apartNumber, String commune, String district, String city, String country) {
+    public AddressResponse create(AddressRequest addressRequest) {
         Address address = new Address();
-        address.setApartNumber(apartNumber);
-        address.setCommune(commune);
-        address.setDistrict(district);
-        address.setCity(city);
-        address.setCountry(country);
+        address.setApartNumber(addressRequest.getApartNumber());
+        address.setCommune(addressRequest.getCommune());
+        address.setDistrict(addressRequest.getDistrict());
+        address.setCity(addressRequest.getCity());
+        address.setCountry(addressRequest.getCountry());
         addressRepository.save(address);
-        return AddressResponse.of(address.getId(), apartNumber, commune, district, city, country);
+        AddressResponse addressResponse = new AddressResponse();
+        addressResponse.setId(addressResponse.getId());
+        addressResponse.setApartNumber(addressResponse.getApartNumber());
+        addressResponse.setCommune(addressResponse.getCommune());
+        addressResponse.setDistrict(addressResponse.getDistrict());
+        addressResponse.setCity(addressResponse.getCity());
+        addressResponse.setCountry(addressResponse.getCountry());
+        return addressResponse;
     }
 }

@@ -14,12 +14,17 @@ public class FullNameServiceImpl implements FullNameService {
     private final FullNameRepository fullNameRepository;
 
     @Override
-    public FullNameResponse create(String firstName, String middleName, String lastName) {
+    public FullNameResponse create(FullNameRequest fullNameRequest) {
         FullName fullName = new FullName();
-        fullName.setFirstName(firstName);
-        fullName.setMiddleName(middleName);
-        fullName.setLastName(lastName);
+        fullName.setFirstName(fullNameRequest.getFirstName());
+        fullName.setMiddleName(fullNameRequest.getMiddleName());
+        fullName.setLastName(fullNameRequest.getLastName());
         fullNameRepository.save(fullName);
-        return FullNameResponse.of(fullName.getId(), firstName,middleName,lastName);
+        FullNameResponse fullNameResponse1 = new FullNameResponse();
+        fullNameResponse1.setId(fullName.getId());
+        fullNameResponse1.setFirstName(fullName.getFirstName());
+        fullNameResponse1.setLastName(fullName.getLastName());
+        fullNameResponse1.setMiddleName(fullName.getMiddleName());
+        return fullNameResponse1;
     }
 }

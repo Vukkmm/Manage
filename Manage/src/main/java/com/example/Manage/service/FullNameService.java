@@ -6,5 +6,5 @@ import com.example.Manage.entity.FullName;
 
 public interface FullNameService {
 
-    FullNameResponse create(String firstName, String middleName, String lastName);
+    FullNameResponse create(FullNameRequest fullNameRequest);
 }
