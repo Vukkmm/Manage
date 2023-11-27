@@ -19,7 +19,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public Address create(String apartNumber, String commune, String district, String city, String country) {
-        log.info("(request) create:apartNumber: {}, commune: {}, district : {}, city: {}, country: {}", apartNumber, commune, district, city, country);
+        log.info("(create) :apartNumber: {}, commune: {}, district : {}, city: {}, country: {}", apartNumber, commune, district, city, country);
         Address address = new Address();
         address.setApartNumber(apartNumber);
         address.setCommune(commune);

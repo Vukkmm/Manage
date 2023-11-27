@@ -17,7 +17,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public Account create(String username, String password) {
-        log.info("(request) create:username: {}, password: {}", username, password);
+        log.info("(create) :username: {}, password: {}", username, password);
 
         Account account = new Account();
         account.setUsername(username);

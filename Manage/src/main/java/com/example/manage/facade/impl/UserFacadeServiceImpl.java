@@ -33,7 +33,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     @Override
     @Transactional
     public UserResponse create(UserRequest request) {
-        log.info("(request) create:{}",request );
+        log.info("(create) request:{}",request );
         Account account = accountService.create(request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
 
         AccountResponse accountResponse = convertToAccountResponse(account);

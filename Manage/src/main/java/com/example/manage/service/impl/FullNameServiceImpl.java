@@ -19,7 +19,7 @@ public class FullNameServiceImpl implements FullNameService {
     @Override
     @Transactional
     public FullName create(String firstName, String middleName, String lastName) {
-        log.info("(request) create:firstName: {}, middleName: {}, lastName: {}", firstName, middleName, lastName);
+        log.info("(create) :firstName: {}, middleName: {}, lastName: {}", firstName, middleName, lastName);
         FullName fullName = new FullName();
         fullName.setFirstName(firstName);
         fullName.setMiddleName(middleName);
