@@ -14,11 +14,14 @@ import com.example.manage.service.AccountService;
 import com.example.manage.service.AddressService;
 import com.example.manage.service.FullNameService;
 import com.example.manage.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserFacadeServiceImpl implements UserFacadeService {
     private final AccountService accountService;
@@ -28,14 +31,12 @@ public class UserFacadeServiceImpl implements UserFacadeService {
 
 
     @Override
+    @Transactional
     public UserResponse create(UserRequest request) {
+        log.info("(request) create:{}",request );
         Account account = accountService.create(request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
 
-        AccountResponse accountResponse = new AccountResponse(
-                account.getId(),
-                account.getUsername(),
-                account.getPassword()
-        );
+        AccountResponse accountResponse = convertToAccountResponse(account);
 
         FullName fullName = fullNameService.create(
                 request.getFullNameRequest().getFirstName(),
@@ -43,12 +44,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 request.getFullNameRequest().getLastName()
         );
 
-        FullNameResponse fullNameResponse = new FullNameResponse(
-                fullName.getId(),
-                fullName.getFirstName(),
-                fullName.getMiddleName(),
-                fullName.getLastName()
-        );
+        FullNameResponse fullNameResponse = convertToFullNameResponse(fullName);
 
         Address address = addressService.create(
                 request.getAddressRequest().getApartNumber(),
@@ -58,19 +54,11 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 request.getAddressRequest().getCountry()
         );
 
-        AddressResponse addressResponse = new AddressResponse(
-                address.getId(),
-                address.getApartNumber(),
-                address.getCommune(),
-                address.getDistrict(),
-                address.getCity(),
-                address.getCountry()
-
-        );
+        AddressResponse addressResponse = convertToAddressResponse(address);
 
         User user = userService.create(request.getAge(), request.getSex(), account, fullName, address);
 
-        UserResponse response = new UserResponse(
+        return new UserResponse(
                 accountResponse.getId(),
                 user.getAge(),
                 user.getSex(),
@@ -78,8 +66,37 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 fullNameResponse,
                 addressResponse
         );
-
-        return response;
     }
+
+    private AddressResponse convertToAddressResponse(Address address) {
+        return new AddressResponse(
+                address.getId(),
+                address.getApartNumber(),
+                address.getCommune(),
+                address.getDistrict(),
+                address.getCity(),
+                address.getCountry()
+        );
+    }
+    private AccountResponse convertToAccountResponse(Account account) {
+        return  new AccountResponse(
+                account.getId(),
+                account.getUsername(),
+                account.getPassword()
+        );
+    }
+
+    private FullNameResponse convertToFullNameResponse(FullName fullName) {
+        return new FullNameResponse(
+                fullName.getId(),
+                fullName.getFirstName(),
+                fullName.getMiddleName(),
+                fullName.getLastName()
+        );
+    }
+
+
+
+
 
 }
