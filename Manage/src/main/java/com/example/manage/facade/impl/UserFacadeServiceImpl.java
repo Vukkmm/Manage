@@ -31,10 +31,11 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     public UserResponse create(UserRequest request) {
         Account account = accountService.create(request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
 
-        AccountResponse accountResponse = new AccountResponse();
-        accountResponse.setId(account.getId());
-        accountResponse.setUsername(account.getUsername());
-        accountResponse.setPassword(account.getPassword());
+        AccountResponse accountResponse = new AccountResponse(
+                account.getId(),
+                account.getUsername(),
+                account.getPassword()
+        );
 
         FullName fullName = fullNameService.create(
                 request.getFullNameRequest().getFirstName(),
@@ -42,11 +43,12 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 request.getFullNameRequest().getLastName()
         );
 
-        FullNameResponse fullNameResponse = new FullNameResponse();
-        fullNameResponse.setId(fullName.getId());
-        fullNameResponse.setFirstName(fullName.getFirstName());
-        fullNameResponse.setMiddleName(fullName.getMiddleName());
-        fullNameResponse.setLastName(fullName.getLastName());
+        FullNameResponse fullNameResponse = new FullNameResponse(
+                fullName.getId(),
+                fullName.getFirstName(),
+                fullName.getMiddleName(),
+                fullName.getLastName()
+        );
 
         Address address = addressService.create(
                 request.getAddressRequest().getApartNumber(),
@@ -56,23 +58,28 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 request.getAddressRequest().getCountry()
         );
 
-        AddressResponse addressResponse = new AddressResponse();
-        addressResponse.setId(address.getId());
-        addressResponse.setApartNumber(address.getApartNumber());
-        addressResponse.setDistrict(address.getDistrict());
-        addressResponse.setCity(address.getCity());
-        addressResponse.setCountry(addressResponse.getCountry());
+        AddressResponse addressResponse = new AddressResponse(
+                address.getId(),
+                address.getApartNumber(),
+                address.getCommune(),
+                address.getDistrict(),
+                address.getCity(),
+                address.getCountry()
+
+        );
 
         User user = userService.create(request.getAge(), request.getSex(), account, fullName, address);
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(accountResponse.getId());
-        userResponse.setAge(user.getAge());
-        userResponse.setSex(user.getSex());
-        userResponse.setAccountResponse(accountResponse);
-        userResponse.setFullNameResponse(fullNameResponse);
-        userResponse.setAddressResponse(addressResponse);
+        UserResponse response = new UserResponse(
+                accountResponse.getId(),
+                user.getAge(),
+                user.getSex(),
+                accountResponse,
+                fullNameResponse,
+                addressResponse
+        );
 
-        return userResponse;
+        return response;
     }
+
 }

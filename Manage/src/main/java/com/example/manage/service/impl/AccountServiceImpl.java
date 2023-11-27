@@ -1,13 +1,10 @@
 package com.example.manage.service.impl;
 
-import com.example.manage.dto.request.AccountRequest;
-import com.example.manage.dto.response.AccountResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.repository.AccountRepository;
 import com.example.manage.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 @Service
 @RequiredArgsConstructor

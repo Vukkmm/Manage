@@ -1,6 +1,6 @@
 package com.example.manage.dto.common;
 
-import com.example.manage.untils.DateUtils;
+import com.example.manage.utils.DateUtils;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class ResponseGeneral<T> {
     }
 
     public static <T> ResponseGeneral<T> ofCreated(T data) {
-        return of(HttpStatus.CREATED.value(), null, data, DateUtils.getCurrentDateString());
+        return of(HttpStatus.CREATED.value(), "create success", data, DateUtils.getCurrentDateString());
     }
 
     public static <T> ResponseGeneral<T> ofCreated(String message) {
