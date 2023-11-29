@@ -95,6 +95,46 @@ public class UserFacadeServiceImpl implements UserFacadeService {
         );
     }
 
+    @Override
+    public UserResponse update(Long id, UserRequest request) {
+        UserResponse userResponse = userService.detail(id);
+
+        Account account = accountService.update(userResponse.getAccountResponse().getId(), request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
+
+        AccountResponse accountResponse = convertToAccountResponse(account);
+
+        FullName fullName = fullNameService.update(
+                userResponse.getFullNameResponse().getId(),
+                request.getFullNameRequest().getFirstName(),
+                request.getFullNameRequest().getMiddleName(),
+                request.getFullNameRequest().getLastName()
+        );
+
+        FullNameResponse fullNameResponse = convertToFullNameResponse(fullName);
+
+        Address address = addressService.update(
+                userResponse.getAddressResponse().getId(),
+                request.getAddressRequest().getApartNumber(),
+                request.getAddressRequest().getCommune(),
+                request.getAddressRequest().getDistrict(),
+                request.getAddressRequest().getCity(),
+                request.getAddressRequest().getCountry()
+        );
+
+        AddressResponse addressResponse = convertToAddressResponse(address);
+
+        User user = userService.update(userResponse.getId(), request.getAge(), request.getSex(), account, fullName, address);
+
+        return new UserResponse(
+                userResponse.getId(),
+                user.getAge(),
+                user.getSex(),
+                accountResponse,
+                fullNameResponse,
+                addressResponse
+        );
+
+    }
 
 
 

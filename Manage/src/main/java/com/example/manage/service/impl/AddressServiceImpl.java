@@ -29,4 +29,18 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
         return address;
     }
+
+    @Override
+    public Address update(Long id, String apartNumber, String commune, String district, String city, String country) {
+        log.info("(create) :id :{}, apartNumber: {}, commune: {}, district : {}, city: {}, country: {}", id, apartNumber, commune, district, city, country);
+        Address address = new Address();
+        address.setId(id);
+        address.setApartNumber(apartNumber);
+        address.setCommune(commune);
+        address.setDistrict(district);
+        address.setCity(city);
+        address.setCountry(country);
+
+        return addressRepository.save(address);
+    }
 }

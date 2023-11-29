@@ -26,4 +26,16 @@ public class FullNameServiceImpl implements FullNameService {
         fullName.setLastName(lastName);
         return fullNameRepository.save(fullName);
     }
+
+    @Override
+    public FullName update(Long id, String firstName, String middleName, String lastName) {
+        log.info("(create) :id: {}, firstName: {}, middleName: {}, lastName: {}", id, firstName, middleName, lastName);
+        FullName fullName = new FullName();
+        fullName.setId(id);
+        fullName.setFirstName(firstName);
+        fullName.setMiddleName(middleName);
+        fullName.setLastName(lastName);
+
+        return fullNameRepository.save(fullName);
+    }
 }

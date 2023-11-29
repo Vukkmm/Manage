@@ -7,5 +7,6 @@ import com.example.manage.entity.Account;
 public interface AccountService {
     Account create(String username, String password);
 
+    Account update(Long id, String username, String password);
 
 }

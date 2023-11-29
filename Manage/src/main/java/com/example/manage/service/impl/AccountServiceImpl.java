@@ -1,5 +1,6 @@
 package com.example.manage.service.impl;
 
+import com.example.manage.dto.response.AccountResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.repository.AccountRepository;
 import com.example.manage.service.AccountService;
@@ -22,6 +23,17 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(password);
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account update(Long id, String username, String password) {
+        log.info("(update) id: {}, :username: {}, password: {}", id, username, password);
+        Account account = new Account();
+        account.setId(id);
+        account.setUsername(username);
+        account.setPassword(password);
+
         return accountRepository.save(account);
     }
 

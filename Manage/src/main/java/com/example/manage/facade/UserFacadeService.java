@@ -6,4 +6,6 @@ import com.example.manage.entity.User;
 
 public interface UserFacadeService {
     UserResponse create(UserRequest request);
+
+    UserResponse update(Long id, UserRequest request);
 }
