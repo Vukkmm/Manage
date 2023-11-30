@@ -3,12 +3,15 @@ package com.example.manage.service.impl;
 import com.example.manage.dto.request.AddressRequest;
 import com.example.manage.dto.response.AddressResponse;
 import com.example.manage.entity.Address;
+import com.example.manage.entity.FullName;
 import com.example.manage.repository.AddressRepository;
 import com.example.manage.service.AddressService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -32,15 +35,22 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address update(Long id, String apartNumber, String commune, String district, String city, String country) {
-        log.info("(create) :id :{}, apartNumber: {}, commune: {}, district : {}, city: {}, country: {}", id, apartNumber, commune, district, city, country);
-        Address address = new Address();
-        address.setId(id);
+        log.info("(update) :id :{}, apartNumber: {}, commune: {}, district : {}, city: {}, country: {}", id, apartNumber, commune, district, city, country);
+            Address address = addressRepository.findById(id).orElse(null);
+            if (Objects.nonNull(address)) {
+                setValueUpdate(address, apartNumber, commune, district, city, country);
+                addressRepository.save(address);
+            } else {
+                throw  new RuntimeException("id does not exist");
+            }
+            return address;
+    }
+
+    private void setValueUpdate(Address address, String apartNumber, String commune, String district, String city, String country) {
         address.setApartNumber(apartNumber);
         address.setCommune(commune);
         address.setDistrict(district);
         address.setCity(city);
         address.setCountry(country);
-
-        return addressRepository.save(address);
     }
 }

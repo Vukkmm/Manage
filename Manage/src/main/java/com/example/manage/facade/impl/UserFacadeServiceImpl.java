@@ -99,7 +99,11 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     public UserResponse update(Long id, UserRequest request) {
         UserResponse userResponse = userService.detail(id);
 
-        Account account = accountService.update(userResponse.getAccountResponse().getId(), request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
+        Account account = accountService.update(
+                userResponse.getAccountResponse().getId(),
+                request.getAccountRequest().getUsername(),
+                request.getAccountRequest().getPassword()
+        );
 
         AccountResponse accountResponse = convertToAccountResponse(account);
 
@@ -123,7 +127,13 @@ public class UserFacadeServiceImpl implements UserFacadeService {
 
         AddressResponse addressResponse = convertToAddressResponse(address);
 
-        User user = userService.update(userResponse.getId(), request.getAge(), request.getSex(), account, fullName, address);
+        User user = userService.update(
+                userResponse.getId(),
+                request.getAge(),
+                request.getSex(),
+                account,
+                fullName,
+                address);
 
         return new UserResponse(
                 userResponse.getId(),
@@ -133,7 +143,6 @@ public class UserFacadeServiceImpl implements UserFacadeService {
                 fullNameResponse,
                 addressResponse
         );
-
     }
 
 
