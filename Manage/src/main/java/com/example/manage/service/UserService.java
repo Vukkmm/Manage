@@ -14,6 +14,6 @@ public interface UserService {
 
     User update(Long id, String age, String sex, Account account, FullName fullName, Address address);
 
-
+    void delete(Long id);
 
 }

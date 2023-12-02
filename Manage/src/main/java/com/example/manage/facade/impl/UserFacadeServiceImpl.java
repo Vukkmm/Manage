@@ -9,6 +9,7 @@ import com.example.manage.entity.Account;
 import com.example.manage.entity.Address;
 import com.example.manage.entity.FullName;
 import com.example.manage.entity.User;
+import com.example.manage.exception.NotFoundException;
 import com.example.manage.facade.UserFacadeService;
 import com.example.manage.service.AccountService;
 import com.example.manage.service.AddressService;
@@ -96,7 +97,9 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     }
 
     @Override
+    @Transactional
     public UserResponse update(Long id, UserRequest request) {
+        log.info("(update) id:{},request:{}",request, id );
         UserResponse userResponse = userService.detail(id);
 
         Account account = accountService.update(
@@ -145,7 +148,20 @@ public class UserFacadeServiceImpl implements UserFacadeService {
         );
     }
 
-
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        log.info("(delete) id:{}",id);
+        UserResponse userResponse = userService.detail(id);
+        if (userResponse != null) {
+            userService.delete(userResponse.getId());
+            accountService.delete(userResponse.getAccountResponse().getId());
+            fullNameService.detele(userResponse.getFullNameResponse().getId());
+            addressService.delete(userResponse.getAddressResponse().getId());
+        } else {
+            throw new NotFoundException("id does not exist");
+        }
+    }
 
 
 }

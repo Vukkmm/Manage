@@ -36,5 +36,11 @@ public class UserController {
         return ResponseGeneral.ofSuccess("update user success" ,userFacadeService.update(id, request));
     }
 
+    @DeleteMapping("{id}")
+    public  ResponseGeneral<Void> delete(@PathVariable Long id) {
+        log.info("(delete) id:{}",id);
+        userFacadeService.delete(id);
+        return ResponseGeneral.ofCreated("delete success");
+    }
 
 }

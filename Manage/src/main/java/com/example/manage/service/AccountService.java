@@ -9,4 +9,6 @@ public interface AccountService {
 
     Account update(Long id, String username, String password);
 
+    void delete(Long id);
+
 }

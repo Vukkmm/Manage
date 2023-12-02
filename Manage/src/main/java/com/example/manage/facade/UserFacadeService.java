@@ -8,4 +8,6 @@ public interface UserFacadeService {
     UserResponse create(UserRequest request);
 
     UserResponse update(Long id, UserRequest request);
+
+    void delete(Long id);
 }

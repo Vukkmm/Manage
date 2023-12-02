@@ -22,4 +22,5 @@ left join Address s ON s.id = u.id
 where u.id = :id
 """)
     UserResponse detail(Long id);
+
 }

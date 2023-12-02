@@ -49,24 +49,37 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public User update(Long id, String age, String sex, Account account, FullName fullName, Address address) {
         log.info("(update) :id: {}, age: {}, sex: {}, account: {}, fullName: {}, address: {}", id, age, sex, account, fullName, address);
         User user = userRepository.findById(id).orElse(null);
         if (Objects.nonNull(user)) {
-            setValueUpdate(user, age, sex, account, fullName,address);
+            setValueUpdate(user, age, sex, account, fullName, address);
             userRepository.save(user);
         } else {
-            throw  new NotFoundException("id does not exist");
+            throw new NotFoundException("id does not exist");
         }
         return user;
     }
 
-    private void setValueUpdate( User user,String age, String sex, Account account, FullName fullName, Address address) {
+
+    private void setValueUpdate(User user, String age, String sex, Account account, FullName fullName, Address address) {
         user.setAge(age);
         user.setSex(sex);
         user.setAccount(account);
         user.setAddress(address);
         user.setFullName(fullName);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("(delete) id:{}",id);
+        User user = userRepository.findById(id).orElse(null);
+        if (Objects.nonNull(user)) {
+            userRepository.delete(user);
+        } else {
+            throw new NotFoundException("id does not exist");
+        }
     }
 
 }

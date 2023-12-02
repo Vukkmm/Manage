@@ -1,6 +1,7 @@
 package com.example.manage.service.impl;
 
 import com.example.manage.entity.Account;
+import com.example.manage.exception.NotFoundException;
 import com.example.manage.repository.AccountRepository;
 import com.example.manage.service.AccountService;
 import jakarta.transaction.Transactional;
@@ -28,6 +29,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account update(Long id, String username, String password) {
         log.info("(update) id: {}, :username: {}, password: {}", id, username, password);
         Account account = accountRepository.findById(id).orElse(null);
@@ -35,13 +37,24 @@ public class AccountServiceImpl implements AccountService {
            setValueUpdate( account,username, password);
            accountRepository.save(account);
         } else {
-            throw new RuntimeException("id does not exist");
+            throw new NotFoundException("id does not exist");
         }
         return account;
     }
-     private void setValueUpdate(Account account, String username, String password) {
+
+    private void setValueUpdate(Account account, String username, String password) {
          account.setUsername(username);
          account.setPassword(password);
      }
 
+    @Override
+    public void delete(Long id) {
+        log.info("(delete) id:{}",id);
+        Account account = accountRepository.findById(id).orElse(null);
+        if (Objects.nonNull(account)) {
+            accountRepository.delete(account);
+        } else {
+            throw new NotFoundException("id does not exist");
+        }
+    }
 }

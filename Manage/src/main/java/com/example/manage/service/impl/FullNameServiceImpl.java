@@ -2,8 +2,10 @@ package com.example.manage.service.impl;
 
 import com.example.manage.dto.request.FullNameRequest;
 import com.example.manage.dto.response.FullNameResponse;
+import com.example.manage.entity.Address;
 import com.example.manage.entity.FullName;
 import com.example.manage.entity.User;
+import com.example.manage.exception.NotFoundException;
 import com.example.manage.repository.FullNameRepository;
 import com.example.manage.service.FullNameService;
 import jakarta.transaction.Transactional;
@@ -31,6 +33,7 @@ public class FullNameServiceImpl implements FullNameService {
     }
 
     @Override
+    @Transactional
     public FullName update(Long id, String firstName, String middleName, String lastName) {
         log.info("(update) :id: {}, firstName: {}, middleName: {}, lastName: {}", id, firstName, middleName, lastName);
         FullName fullName = fullNameRepository.findById(id).orElse(null);
@@ -38,7 +41,7 @@ public class FullNameServiceImpl implements FullNameService {
             setValueUpdate(fullName, firstName, middleName, lastName);
             fullNameRepository.save(fullName);
         } else {
-            throw new RuntimeException("id does not exist");
+            throw new NotFoundException("id does not exist");
         }
         return fullName;
     }
@@ -48,4 +51,16 @@ public class FullNameServiceImpl implements FullNameService {
         fullName.setMiddleName(middleName);
         fullName.setLastName(lastName);
     }
+
+    @Override
+    public void detele(Long id) {
+        log.info("(delete) id:{}",id);
+        FullName fullName = fullNameRepository.findById(id).orElse(null);
+        if (Objects.nonNull(fullName)) {
+            fullNameRepository.delete(fullName);
+        } else {
+            throw new NotFoundException("id does not exist");
+        }
+    }
+
 }
