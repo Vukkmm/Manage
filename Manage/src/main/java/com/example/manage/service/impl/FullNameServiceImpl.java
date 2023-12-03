@@ -53,6 +53,7 @@ public class FullNameServiceImpl implements FullNameService {
     }
 
     @Override
+    @Transactional
     public void detele(Long id) {
         log.info("(delete) id:{}",id);
         FullName fullName = fullNameRepository.findById(id).orElse(null);

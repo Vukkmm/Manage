@@ -59,6 +59,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.info("(delete) id:{}",id);
         Address address = addressRepository.findById(id).orElse(null);

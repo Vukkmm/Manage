@@ -48,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
      }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.info("(delete) id:{}",id);
         Account account = accountRepository.findById(id).orElse(null);

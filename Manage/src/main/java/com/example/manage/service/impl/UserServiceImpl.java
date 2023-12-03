@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.info("(delete) id:{}",id);
         User user = userRepository.findById(id).orElse(null);
