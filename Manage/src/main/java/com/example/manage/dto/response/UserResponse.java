@@ -28,7 +28,7 @@ public class UserResponse {
         this.sex = sex;
         accountResponse = new AccountResponse(accountId, username, password);
         fullNameResponse = new FullNameResponse( fullNameId, firstName, middleName, lastName);
-        addressResponse = new AddressResponse(accountId, apartNumber, commune, district, city, country);
+        addressResponse = new AddressResponse(addressId, apartNumber, commune, district, city, country);
     }
 
 }

@@ -34,7 +34,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     @Override
     @Transactional
     public UserResponse create(UserRequest request) {
-        log.info("(create) request:{}",request );
+        log.info("(create) request:{}", request);
         Account account = accountService.create(request.getAccountRequest().getUsername(), request.getAccountRequest().getPassword());
 
         AccountResponse accountResponse = convertToAccountResponse(account);
@@ -69,42 +69,15 @@ public class UserFacadeServiceImpl implements UserFacadeService {
         );
     }
 
-    private AddressResponse convertToAddressResponse(Address address) {
-        return new AddressResponse(
-                address.getId(),
-                address.getApartNumber(),
-                address.getCommune(),
-                address.getDistrict(),
-                address.getCity(),
-                address.getCountry()
-        );
-    }
-    private AccountResponse convertToAccountResponse(Account account) {
-        return  new AccountResponse(
-                account.getId(),
-                account.getUsername(),
-                account.getPassword()
-        );
-    }
-
-    private FullNameResponse convertToFullNameResponse(FullName fullName) {
-        return new FullNameResponse(
-                fullName.getId(),
-                fullName.getFirstName(),
-                fullName.getMiddleName(),
-                fullName.getLastName()
-        );
-    }
 
     @Override
     @Transactional
     public UserResponse update(Long id, UserRequest request) {
-        log.info("(update) id:{},request:{}",request, id );
+        log.info("(update) id:{},request:{}", request, id);
         UserResponse userResponse = userService.detail(id);
 
         Account account = accountService.update(
                 userResponse.getAccountResponse().getId(),
-                request.getAccountRequest().getUsername(),
                 request.getAccountRequest().getPassword()
         );
 
@@ -151,7 +124,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     @Override
     @Transactional
     public void delete(Long id) {
-        log.info("(delete) id:{}",id);
+        log.info("(delete) id:{}", id);
         UserResponse userResponse = userService.detail(id);
         if (userResponse != null) {
             userService.delete(userResponse.getId());
@@ -161,6 +134,34 @@ public class UserFacadeServiceImpl implements UserFacadeService {
         } else {
             throw new NotFoundException("id does not exist");
         }
+    }
+
+    private AddressResponse convertToAddressResponse(Address address) {
+        return new AddressResponse(
+                address.getId(),
+                address.getApartNumber(),
+                address.getCommune(),
+                address.getDistrict(),
+                address.getCity(),
+                address.getCountry()
+        );
+    }
+
+    private AccountResponse convertToAccountResponse(Account account) {
+        return new AccountResponse(
+                account.getId(),
+                account.getUsername(),
+                account.getPassword()
+        );
+    }
+
+    private FullNameResponse convertToFullNameResponse(FullName fullName) {
+        return new FullNameResponse(
+                fullName.getId(),
+                fullName.getFirstName(),
+                fullName.getMiddleName(),
+                fullName.getLastName()
+        );
     }
 
 

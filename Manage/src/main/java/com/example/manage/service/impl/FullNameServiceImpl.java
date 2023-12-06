@@ -1,10 +1,6 @@
 package com.example.manage.service.impl;
 
-import com.example.manage.dto.request.FullNameRequest;
-import com.example.manage.dto.response.FullNameResponse;
-import com.example.manage.entity.Address;
 import com.example.manage.entity.FullName;
-import com.example.manage.entity.User;
 import com.example.manage.exception.NotFoundException;
 import com.example.manage.repository.FullNameRepository;
 import com.example.manage.service.FullNameService;
@@ -46,22 +42,22 @@ public class FullNameServiceImpl implements FullNameService {
         return fullName;
     }
 
-    private void setValueUpdate(FullName fullName, String firstName, String middleName, String lastName) {
-        fullName.setFirstName(firstName);
-        fullName.setMiddleName(middleName);
-        fullName.setLastName(lastName);
-    }
-
     @Override
     @Transactional
     public void detele(Long id) {
-        log.info("(delete) id:{}",id);
+        log.info("(delete) id:{}", id);
         FullName fullName = fullNameRepository.findById(id).orElse(null);
         if (Objects.nonNull(fullName)) {
             fullNameRepository.delete(fullName);
         } else {
             throw new NotFoundException("id does not exist");
         }
+    }
+
+    private void setValueUpdate(FullName fullName, String firstName, String middleName, String lastName) {
+        fullName.setFirstName(firstName);
+        fullName.setMiddleName(middleName);
+        fullName.setLastName(lastName);
     }
 
 }
