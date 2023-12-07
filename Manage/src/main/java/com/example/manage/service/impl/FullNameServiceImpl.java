@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.example.manage.constant.constants.Message.ID_EXIST;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class FullNameServiceImpl implements FullNameService {
             setValueUpdate(fullName, firstName, middleName, lastName);
             fullNameRepository.save(fullName);
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
         return fullName;
     }
@@ -50,7 +52,7 @@ public class FullNameServiceImpl implements FullNameService {
         if (Objects.nonNull(fullName)) {
             fullNameRepository.delete(fullName);
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
     }
 

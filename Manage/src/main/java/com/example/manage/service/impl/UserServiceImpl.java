@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.example.manage.constant.constants.Message.ID_EXIST;
+
 
 @Service
 @Slf4j
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
         log.info("(detail) id: {}", id);
         UserResponse userResponse = userRepository.detail(id);
         if (userResponse == null) {
-            throw new NotFoundException("id not found");
+            throw new NotFoundException(ID_EXIST);
         }
         return userResponse;
     }
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
             setValueUpdate(user, age, sex, account, fullName, address);
             userRepository.save(user);
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
         return user;
     }

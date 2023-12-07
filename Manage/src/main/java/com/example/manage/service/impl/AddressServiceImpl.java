@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.example.manage.constant.constants.Message.ID_EXIST;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class AddressServiceImpl implements AddressService {
             setValueUpdate(address, apartNumber, commune, district, city, country);
             addressRepository.save(address);
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
         return address;
     }
@@ -54,7 +56,7 @@ public class AddressServiceImpl implements AddressService {
         if (Objects.nonNull(address)) {
             addressRepository.delete(address);
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
     }
 

@@ -9,4 +9,6 @@ public interface AccountService {
 
     void delete(Long id);
 
+    boolean isUsernameOrPasswordExists(String username, String password);
+
 }
