@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
     public Account create(String username, String password) {
         log.info("(create) :username: {}, password: {}", username, password);
         String encodePassword = passwordEncoder.encode(password);
-        if (isUsernameOrPasswordExists(username, encodePassword)) {
+        if (isUsernameAndPasswordExists(username, encodePassword) || isUsernameOrPasswordExists(username, password)) {
             throw new AccountExistsException(USERNAME_OR_PASSWORD_EXIST);
         }
         Account account = new Account();
@@ -65,9 +65,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean isUsernameAndPasswordExists(String username, String password) {
+        return accountRepository.existsByUsernameAndPassword(username, password);
+    }
+
+    @Override
     public boolean isUsernameOrPasswordExists(String username, String password) {
         return accountRepository.existsByUsernameOrPassword(username, password);
     }
+
 
 
     private void setValueUpdate(Account account, String password) {

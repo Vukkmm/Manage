@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.example.manage.constant.constants.Message.ID_EXIST;
+
 
 @Service
 @Slf4j
@@ -132,7 +134,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
             fullNameService.detele(userResponse.getFullNameResponse().getId());
             addressService.delete(userResponse.getAddressResponse().getId());
         } else {
-            throw new NotFoundException("id does not exist");
+            throw new NotFoundException(ID_EXIST);
         }
     }
 
