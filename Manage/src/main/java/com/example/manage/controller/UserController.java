@@ -51,8 +51,7 @@ public class UserController {
     @GetMapping
     public ResponseGeneral<List<UserResponse>> list() {
         log.info("(list)");
-        List<UserResponse> userList = userService.list();
-        return ResponseGeneral.ofList(LIST_SUCCESS, userList);
+        return ResponseGeneral.ofList(LIST_SUCCESS, userService.list());
     }
 
 }
