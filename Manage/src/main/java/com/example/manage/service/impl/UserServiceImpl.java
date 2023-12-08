@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.example.manage.constant.constants.Message.ID_EXIST;
 
@@ -75,6 +78,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new NotFoundException("id does not exist");
         }
+    }
+
+    @Override
+    public List<UserResponse> list() {
+        log.info("(list)");
+        return userRepository.findAllUsers();
     }
 
     private void setValueUpdate(User user, String age, String sex, Account account, FullName fullName, Address address) {

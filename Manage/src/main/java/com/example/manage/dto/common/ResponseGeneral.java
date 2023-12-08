@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
@@ -40,5 +43,10 @@ public class ResponseGeneral<T> {
     public static <T> ResponseGeneral<T> ofCreated(String message) {
         return of(HttpStatus.CREATED.value(), message, null, DateUtils.getCurrentDateString());
     }
+
+    public static <T> ResponseGeneral<List<T>> ofList(String message, List<T> data) {
+        return ResponseGeneral.of(HttpStatus.OK.value(), message, data, DateUtils.getCurrentDateString());
+    }
+
 
 }

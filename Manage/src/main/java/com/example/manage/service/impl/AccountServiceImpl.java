@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-import static com.example.manage.constant.constants.Message.ID_EXIST;
-import static com.example.manage.constant.constants.Message.USERNAME_OR_PASSWORD_EXIST;
+import static com.example.manage.constant.constants.Message.*;
 
 @Service
 @Slf4j
@@ -28,8 +27,8 @@ public class AccountServiceImpl implements AccountService {
     public Account create(String username, String password) {
         log.info("(create) :username: {}, password: {}", username, password);
         String encodePassword = passwordEncoder.encode(password);
-        if (isUsernameAndPasswordExists(username, encodePassword) || isUsernameOrPasswordExists(username, password)) {
-            throw new AccountExistsException(USERNAME_OR_PASSWORD_EXIST);
+        if (isUsernameExists(username)) {
+            throw new AccountExistsException(USERNAME_EXIST);
         }
         Account account = new Account();
         account.setUsername(username);
@@ -65,16 +64,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean isUsernameAndPasswordExists(String username, String password) {
-        return accountRepository.existsByUsernameAndPassword(username, password);
+    public boolean isUsernameExists(String username) {
+        return accountRepository.existsByUsername(username);
     }
-
-    @Override
-    public boolean isUsernameOrPasswordExists(String username, String password) {
-        return accountRepository.existsByUsernameOrPassword(username, password);
-    }
-
-
 
     private void setValueUpdate(Account account, String password) {
         account.setPassword(passwordEncoder.encode(password));

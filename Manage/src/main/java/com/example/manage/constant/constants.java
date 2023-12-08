@@ -11,9 +11,10 @@ public class constants {
         public static final String DETAIL_SUCCESS = "get detail success";
         public static final String UPDATE_SUCCESS = "update user success";
         public static final String DELETE_SUCCESS = "delete success";
-        public static final String USERNAME_OR_PASSWORD_EXIST = "Account with the given username or password already exists";
-
+        public static final String USERNAME_EXIST = "Account with the given username or password already exists";
         public static final String ID_EXIST = "id does not exist";
+
+        public static final String LIST_SUCCESS = "Get all list user success";
     }
 
 }
