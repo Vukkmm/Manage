@@ -1,7 +1,6 @@
 package com.example.manage.controller;
 
 import com.example.manage.dto.common.PageResponse;
-import com.example.manage.dto.common.PageResponseGeneral;
 import com.example.manage.dto.common.ResponseGeneral;
 import com.example.manage.dto.request.UserRequest;
 import com.example.manage.dto.response.UserResponse;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.example.manage.constant.constants.Message.*;
 
@@ -51,14 +48,14 @@ public class UserController {
     }
 
     @GetMapping
-    public PageResponseGeneral<PageResponse<UserResponse>> list(
+    public ResponseGeneral<PageResponse<UserResponse>> list(
             @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "all", defaultValue = "false", required = false) boolean isAll
+            @RequestParam(name = "all", defaultValue = "true", required = false) boolean isAll
     ) {
         log.info("(list) keyword: {}, size : {}, page: {}, isAll: {}", keyword, size, page, isAll);
-        return PageResponseGeneral.ofSuccess(userService.list(keyword, size, page, isAll));
+        return ResponseGeneral.ofSuccess(userService.list(keyword, size, page, isAll));
     }
 
 }
