@@ -19,4 +19,5 @@ public class Address {
     private String district;
     private String city;
     private String country;
+    private boolean isDelete;
 }

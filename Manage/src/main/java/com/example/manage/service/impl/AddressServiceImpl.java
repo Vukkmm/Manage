@@ -29,6 +29,7 @@ public class AddressServiceImpl implements AddressService {
         address.setDistrict(district);
         address.setCity(city);
         address.setCountry(country);
+        address.setDelete(false);
         addressRepository.save(address);
         return address;
     }

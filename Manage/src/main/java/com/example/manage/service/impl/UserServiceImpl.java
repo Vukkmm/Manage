@@ -1,5 +1,6 @@
 package com.example.manage.service.impl;
 
+import com.example.manage.dto.common.PageResponse;
 import com.example.manage.dto.response.UserResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.entity.Address;
@@ -11,6 +12,8 @@ import com.example.manage.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,13 +35,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User create(String age, String sex, Account account, FullName fullName, Address address) {
         log.info("(create) request:age: {}, sex: {}, account: {}, fullName: {}, address: {}", age, sex, account, fullName, address);
-        User user = new User();
-        user.setAge(age);
-        user.setSex(sex);
-        user.setAccount(account);
-        user.setAddress(address);
-        user.setFullName(fullName);
-
+        User user = new User(
+                account.getId(),
+                age,
+                sex,
+                account,
+                fullName,
+                address
+        );
         return userRepository.save(user);
     }
 
@@ -81,9 +85,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> list() {
-        log.info("(list)");
-        return userRepository.findAllUsers();
+    public PageResponse<UserResponse> list(String keyword, int size, int page, boolean isAll) {
+        log.info("(list) keyword: {}, size : {}, page: {}, isAll: {}", keyword, size, page, isAll);
+        Page<UserResponse> list = isAll ?
+                userRepository.findAllUsers(PageRequest.of(page, size)) :
+                userRepository.search(PageRequest.of(page, size), keyword);
+        return PageResponse.of(list.getContent(), list.getNumberOfElements());
     }
 
     private void setValueUpdate(User user, String age, String sex, Account account, FullName fullName, Address address) {

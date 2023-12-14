@@ -27,6 +27,7 @@ public class FullNameServiceImpl implements FullNameService {
         fullName.setFirstName(firstName);
         fullName.setMiddleName(middleName);
         fullName.setLastName(lastName);
+        fullName.setDelete(false);
         return fullNameRepository.save(fullName);
     }
 

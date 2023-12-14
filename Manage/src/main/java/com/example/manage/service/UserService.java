@@ -1,5 +1,6 @@
 package com.example.manage.service;
 
+import com.example.manage.dto.common.PageResponse;
 import com.example.manage.dto.response.UserResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.entity.Address;
@@ -17,6 +18,6 @@ public interface UserService {
 
     void delete(Long id);
 
-    List<UserResponse> list();
+    PageResponse<UserResponse> list(String keyword, int size, int page, boolean isAll);
 
 }

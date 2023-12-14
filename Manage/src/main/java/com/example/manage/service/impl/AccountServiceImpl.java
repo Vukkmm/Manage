@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(encodePassword);
+        account.setDelete(false);
         return accountRepository.save(account);
     }
 

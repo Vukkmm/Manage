@@ -1,5 +1,7 @@
 package com.example.manage.controller;
 
+import com.example.manage.dto.common.PageResponse;
+import com.example.manage.dto.common.PageResponseGeneral;
 import com.example.manage.dto.common.ResponseGeneral;
 import com.example.manage.dto.request.UserRequest;
 import com.example.manage.dto.response.UserResponse;
@@ -49,9 +51,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseGeneral<List<UserResponse>> list() {
-        log.info("(list)");
-        return ResponseGeneral.ofList(LIST_SUCCESS, userService.list());
+    public PageResponseGeneral<PageResponse<UserResponse>> list(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "all", defaultValue = "false", required = false) boolean isAll
+    ) {
+        log.info("(list) keyword: {}, size : {}, page: {}, isAll: {}", keyword, size, page, isAll);
+        return PageResponseGeneral.ofSuccess(userService.list(keyword, size, page, isAll));
     }
 
 }

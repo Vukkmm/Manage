@@ -30,5 +30,15 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    private boolean isDelete;
 
+    public User (Long id, String age, String sex, Account account, FullName fullName, Address address) {
+        this.id = id;
+        this.age = age;
+        this.sex = sex;
+        this.account = account;
+        this.fullName = fullName;
+        this.address = address;
+        isDelete = false;
+    }
 }
