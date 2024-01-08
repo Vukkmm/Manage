@@ -1,4 +1,4 @@
-package com.example.manage.config;
+package com.example.manage.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +13,23 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(requests -> requests
+//                .anyRequest().permitAll()
+//                )
+//                .csrf(csrf -> csrf.disable());
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
-                .anyRequest().permitAll()
-        )
+                        .anyRequest().permitAll()
+                )
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
+
+
 }
