@@ -1,5 +1,6 @@
 package com.example.manage.service;
 
+import com.example.manage.dto.response.AccountResponse;
 import com.example.manage.entity.Account;
 
 public interface AccountService {
@@ -11,4 +12,7 @@ public interface AccountService {
 
     boolean isUsernameExists(String username);
 
+    AccountResponse getDetailUserByUsername(String username);
+
+    void equalPassword(String passwordRaw, String passwordEncrypted);
 }

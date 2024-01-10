@@ -14,7 +14,17 @@ public class constants {
         public static final String USERNAME_EXIST = "Account with the given username or password already exists";
         public static final String ID_EXIST = "id does not exist";
 
+        public static final String PASSWORD_INCORRECT = "Password Incorrect";
+
         public static final String LIST_SUCCESS = "Get all list user success";
+    }
+
+    public static class AuthConstant {
+        public static String TYPE_TOKEN = "Bearer ";
+        public static String AUTHENTICATION = "Authentication";
+        public static final int AUTHORIZATION_TYPE_SIZE = 7;
+        public static final String INVALID_TOKEN = "Token is invalid";
+        public static final String EXPIRED_TOKEN = "Token is expired";
     }
 
 }

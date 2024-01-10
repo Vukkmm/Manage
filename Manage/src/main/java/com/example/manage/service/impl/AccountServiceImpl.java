@@ -1,8 +1,10 @@
 package com.example.manage.service.impl;
 
+import com.example.manage.dto.response.AccountResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.exception.AccountExistsException;
 import com.example.manage.exception.NotFoundException;
+import com.example.manage.exception.PasswordIncorrectException;
 import com.example.manage.repository.AccountRepository;
 import com.example.manage.service.AccountService;
 import jakarta.transaction.Transactional;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 import static com.example.manage.constant.constants.Message.*;
+import static com.example.manage.utils.BCryptUtils.getPasswordEncoder;
 
 @Service
 @Slf4j
@@ -67,6 +70,24 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean isUsernameExists(String username) {
         return accountRepository.existsByUsername(username);
+    }
+
+    @Override
+    public AccountResponse getDetailUserByUsername(String username) {
+        Account account = accountRepository.findByUsername(username);
+        if (account == null) {
+            throw new AccountExistsException(USERNAME_EXIST);
+        }
+        return new AccountResponse(account.getId()
+                , account.getUsername()
+                , account.getPassword());
+    }
+
+    @Override
+    public void equalPassword(String passwordRaw, String passwordEncrypted) {
+        if (!getPasswordEncoder().matches(passwordRaw, passwordEncrypted)) {
+            throw new PasswordIncorrectException(PASSWORD_INCORRECT);
+        }
     }
 
     private void setValueUpdate(Account account, String password) {
