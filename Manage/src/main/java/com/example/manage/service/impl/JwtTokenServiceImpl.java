@@ -1,7 +1,6 @@
 package com.example.manage.service.impl;
 
-import com.example.manage.exception.token.TokenExpiredException;
-import com.example.manage.exception.token.TokenInvalidException;
+import com.example.manage.exception.NotFoundException;
 import com.example.manage.service.JwtTokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -14,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.manage.constant.constants.Message.ID_EXIST;
 
 @Service
 @Slf4j
@@ -61,11 +62,11 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         log.info("(validateToken)start");
         if (!isValidToken(token)) {
             log.error("(validateToken) ==========> TokenInvalidException");
-            throw new TokenInvalidException();
+            throw new NotFoundException(ID_EXIST) ;
         }
         if (isExpiredToken(token)) {
             log.error("(validateToken) ==========> TokenExpiredException");
-            throw new TokenExpiredException();
+            throw new NotFoundException(ID_EXIST);
         }
     }
     /**

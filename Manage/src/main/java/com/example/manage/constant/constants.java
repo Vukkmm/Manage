@@ -25,6 +25,8 @@ public class constants {
         public static final int AUTHORIZATION_TYPE_SIZE = 7;
         public static final String INVALID_TOKEN = "Token is invalid";
         public static final String EXPIRED_TOKEN = "Token is expired";
+
+        public static final String LOGIN_SUCCESS = "Login success";
     }
 
 }
