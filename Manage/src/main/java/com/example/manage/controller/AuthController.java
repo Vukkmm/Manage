@@ -2,8 +2,7 @@ package com.example.manage.controller;
 
 import com.example.manage.dto.common.ResponseGeneral;
 import com.example.manage.dto.request.authen.LoginRequest;
-import com.example.manage.dto.response.authen.LoginResponse;
-import com.example.manage.service.AuthenticationService;
+import com.example.manage.facade.UserFacadeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ import static com.example.manage.constant.constants.AuthConstant.LOGIN_SUCCESS;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final AuthenticationService authenticationService;
+    private final UserFacadeService userFacadeService;
 
     @PostMapping("login")
     public ResponseGeneral login(@RequestBody LoginRequest loginRequest) {
@@ -28,7 +27,7 @@ public class AuthController {
         return ResponseGeneral.of(
                 HttpStatus.OK.value(),
                 LOGIN_SUCCESS,
-                authenticationService.login(
+                userFacadeService.login(
                         loginRequest.getUsername(),
                         loginRequest.getPassword()
                 )

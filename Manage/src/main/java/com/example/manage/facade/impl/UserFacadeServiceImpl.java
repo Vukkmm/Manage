@@ -5,20 +5,20 @@ import com.example.manage.dto.response.AccountResponse;
 import com.example.manage.dto.response.AddressResponse;
 import com.example.manage.dto.response.FullNameResponse;
 import com.example.manage.dto.response.UserResponse;
+import com.example.manage.dto.response.authen.LoginResponse;
 import com.example.manage.entity.Account;
 import com.example.manage.entity.Address;
 import com.example.manage.entity.FullName;
 import com.example.manage.entity.User;
 import com.example.manage.exception.NotFoundException;
 import com.example.manage.facade.UserFacadeService;
-import com.example.manage.service.AccountService;
-import com.example.manage.service.AddressService;
-import com.example.manage.service.FullNameService;
-import com.example.manage.service.UserService;
+import com.example.manage.service.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 import static com.example.manage.constant.constants.Message.ID_EXIST;
 
@@ -31,6 +31,7 @@ public class UserFacadeServiceImpl implements UserFacadeService {
     private final AddressService addressService;
     private final FullNameService fullNameService;
     private final UserService userService;
+    private final JwtTokenService jwtTokenService;
 
 
     @Override
@@ -136,6 +137,19 @@ public class UserFacadeServiceImpl implements UserFacadeService {
         } else {
             throw new NotFoundException(ID_EXIST);
         }
+    }
+
+    @Override
+    public LoginResponse login(String username, String password) {
+        log.info("(signIn)  username:   {}, password:    {}", username, password);
+        var account = accountService.getDetailUserByUsername(username);
+        accountService.equalPassword(password, account.getPassword());
+
+        var claims = new HashMap<String, Object>();
+        claims.put("username", username);
+        String accessToken = jwtTokenService.generateAccessToken(String.valueOf(account.getId()), claims);
+        String refreshToken = jwtTokenService.generateRefreshToken(String.valueOf(account.getId()), account.getUsername());
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     private AddressResponse convertToAddressResponse(Address address) {
